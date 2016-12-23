@@ -68,7 +68,7 @@ public class CwacCameraFragment extends CameraFragment {
         setRetainInstance(true);
 
         SimpleCameraHost.Builder builder = new SimpleCameraHost.Builder(new DemoCameraHost(getActivity()));
-        setHost(builder.useFullBleedPreview(true).build());
+        setCameraHost(builder.useFullBleedPreview(true).build());
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage(getString(R.string.progress_title));
@@ -136,7 +136,7 @@ public class CwacCameraFragment extends CameraFragment {
         mTakePictureBtn.setEnabled(false);
         mProgressDialog.show();
 
-        PictureTransaction pictureTransaction = new PictureTransaction(getHost());
+        PictureTransaction pictureTransaction = new PictureTransaction(getCameraHost());
         pictureTransaction.needBitmap(true);
         if (!Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
             pictureTransaction.flashMode(flashMode);

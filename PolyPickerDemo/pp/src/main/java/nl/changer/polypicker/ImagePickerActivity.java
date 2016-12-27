@@ -2,7 +2,6 @@ package nl.changer.polypicker;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -13,9 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 import nl.changer.polypicker.model.Image;
 import nl.changer.polypicker.utils.ImageInternalFetcher;
@@ -32,8 +32,9 @@ public class ImagePickerActivity extends AppCompatActivity {
      * Returns the parcelled image uris in the intent with this extra.
      */
     public static final String EXTRA_IMAGE_URIS = "nl.changer.changer.nl.polypicker.extra.selected_image_uris";
+    public static final String EXTRA_IMAGES_TO_DISPLAY = "nl.changer.changer.nl.polypicker.extra.images_to_display";
 
-    private Set<Image> mSelectedImages;
+    private LinkedHashSet<Image> mSelectedImages;
     private LinearLayout mSelectedImagesContainer;
     protected TextView mSelectedImageEmptyMessage;
 
@@ -79,7 +80,7 @@ public class ImagePickerActivity extends AppCompatActivity {
         mCancelButtonView = (Button) findViewById(R.id.pp__btn_cancel);
         mDoneButtonView = (Button) findViewById(R.id.pp__btn_done);
 
-        mSelectedImages = new HashSet<>();
+        mSelectedImages = new LinkedHashSet<>();
         mImageFetcher = new ImageInternalFetcher(this, 500);
 
         mCancelButtonView.setOnClickListener(mOnFinishGettingImages);
@@ -89,11 +90,24 @@ public class ImagePickerActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             populateUi(savedInstanceState);
         }
+
+        if (getIntent().getExtras() != null){
+            // There are pictures to (re)display
+            populateUI(getIntent());
+        }
     }
 
     protected void populateUi(Bundle savedInstanceState) {
         ArrayList<Image> list = savedInstanceState.getParcelableArrayList(KEY_LIST);
+        displayImagesList(list);
+    }
 
+    protected void populateUI(Intent i){
+        ArrayList<Image> list = i.getParcelableArrayListExtra(EXTRA_IMAGES_TO_DISPLAY);
+        displayImagesList(list);
+    }
+
+    private void displayImagesList(ArrayList<Image> list) {
         if (list != null) {
             for (Image image : list) {
                 addImage(image);
@@ -120,7 +134,7 @@ public class ImagePickerActivity extends AppCompatActivity {
             // this condition may arise when the activity is being
             // restored when sufficient memory is available. onRestoreState()
             // will be called.
-            mSelectedImages = new HashSet<Image>();
+            mSelectedImages = new LinkedHashSet<>();
         }
 
         if (mSelectedImages.size() == mConfig.getSelectionLimit()) {
@@ -134,8 +148,13 @@ public class ImagePickerActivity extends AppCompatActivity {
                         removeImage(i);
                     }
                 });
-                mImageFetcher.loadImage(image.mUri, rootView.getImagePreviewView());
-                mSelectedImagesContainer.addView(rootView, 0);
+                if(image.isWeb == 0) {
+                    mImageFetcher.loadImage(image.mUri, rootView.getImagePreviewView());
+                }
+                else{
+                    Glide.with(this).load(image.mUrl).into(rootView.getImagePreviewView());
+                }
+                mSelectedImagesContainer.addView(rootView);
 
                 if (mSelectedImages.size() >= 1) {
                     mSelectedImagesContainer.setVisibility(View.VISIBLE);
@@ -152,7 +171,7 @@ public class ImagePickerActivity extends AppCompatActivity {
         if (mSelectedImages.remove(image)) {
             for (int i = 0; i < mSelectedImagesContainer.getChildCount(); i++) {
                 View childView = mSelectedImagesContainer.getChildAt(i);
-                if (childView.getTag().equals(image.mUri)) {
+                if (childView.getTag().equals(image)) {
                     mSelectedImagesContainer.removeViewAt(i);
                     break;
                 }
@@ -180,14 +199,14 @@ public class ImagePickerActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (view.getId() == R.id.pp__btn_done) {
 
-                Uri[] uris = new Uri[mSelectedImages.size()];
+                Image[] images = new Image[mSelectedImages.size()];
                 int i = 0;
                 for (Image img : mSelectedImages) {
-                    uris[i++] = img.mUri;
+                    images[i++] = img;
                 }
 
                 Intent intent = new Intent();
-                intent.putExtra(EXTRA_IMAGE_URIS, uris);
+                intent.putExtra(EXTRA_IMAGE_URIS, images);
                 setResult(Activity.RESULT_OK, intent);
             } else if (view.getId() == R.id.pp__btn_cancel) {
                 setResult(Activity.RESULT_CANCELED);

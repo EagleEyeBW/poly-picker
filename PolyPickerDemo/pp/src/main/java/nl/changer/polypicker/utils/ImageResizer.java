@@ -16,10 +16,6 @@
 
 package nl.changer.polypicker.utils;
 
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-
-import nl.changer.polypicker.BuildConfig;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +24,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+
+import nl.changer.polypicker.BuildConfig;
 
 /**
  * A simple subclass of {@link nl.changer.polypicker.utils.ImageWorker} that resizes images from resources given a target width

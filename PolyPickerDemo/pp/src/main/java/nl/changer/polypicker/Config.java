@@ -1,7 +1,6 @@
 package nl.changer.polypicker;
 
 import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
 
 /**
  * Created by jay on 3/5/15.

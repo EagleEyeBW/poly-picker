@@ -16,9 +16,6 @@
 
 package nl.changer.polypicker.utils;
 
-import java.lang.ref.WeakReference;
-
-import nl.changer.polypicker.BuildConfig;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -31,6 +28,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+
+import nl.changer.polypicker.BuildConfig;
 
 /**
  * This class wraps up completing some arbitrary long running work when loading a bitmap to an

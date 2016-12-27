@@ -1,6 +1,5 @@
 package nl.changer.polypicker;
 
-import nl.changer.polypicker.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;

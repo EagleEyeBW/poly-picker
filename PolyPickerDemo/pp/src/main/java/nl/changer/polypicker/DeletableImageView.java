@@ -29,9 +29,7 @@ public class DeletableImageView extends RelativeLayout {
         mDeleteButton = (ImageView) findViewById(R.id.pp__delete_image);
         setDeleteListener(this.mDeleteListener);
         mPreviewImageView = (ImageView) findViewById(R.id.pp__selected_photo);
-//        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
-//        mPreviewImageView.setLayoutParams(new RelativeLayout.LayoutParams(px, px));
-        this.setTag(mPreviewImage.mUri);
+        this.setTag(mPreviewImage);
     }
 
 

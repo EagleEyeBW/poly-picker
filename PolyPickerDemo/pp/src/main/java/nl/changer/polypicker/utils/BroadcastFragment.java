@@ -1,8 +1,8 @@
 package nl.changer.polypicker.utils;
 
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
-import android.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 

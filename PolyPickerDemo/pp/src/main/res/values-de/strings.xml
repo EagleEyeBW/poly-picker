@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="done">Ok</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="take_photo">Kamera</string>
+    <string name="gallery">Gallerie</string>
+    <string name="progress_title">Processing…</string>
+    <string name="no_images_selected">Kein Bild ausgewählt</string>
+    <string name="imageview_content_description">Gallerie Bild</string>
+    <string name="imageview_capture_photo_content_description">Foto mit der Kamera machen.</string>
+    <string name="n_images_selected">%1$s Bilder bereits ausgewählt</string>
+    <string name="photo_save_error_toast">Bild konnte nicht gespeichert werden.</string>
+</resources>
